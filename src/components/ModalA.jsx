@@ -5,10 +5,10 @@ import { useInView } from "react-intersection-observer";
 import Spinner from "react-bootstrap/Spinner";
 
 const ModalA = (props) => {
+  const initialUrl =
+    "https://contact.mediusware.com/api/contacts/?page_size=20";
   const { ref, inView } = useInView();
-  const [url, setUrl] = useState(
-    "https://contact.mediusware.com/api/contacts/?page_size=20"
-  );
+  const [url, setUrl] = useState(initialUrl);
   const [contacts, setContacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,6 +31,8 @@ const ModalA = (props) => {
         .then((data) => {
           setUrl(data.next);
           setContacts([...contacts, ...data.results]);
+        })
+        .finally(() => {
           setIsLoading(false);
         });
     }
@@ -47,7 +49,7 @@ const ModalA = (props) => {
           All Contacts
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body scrollable>
+      <Modal.Body scrollable style={{ height: "75vh", overflowY: "auto" }}>
         <table className="table table-striped ">
           <thead>
             <tr>
@@ -73,7 +75,11 @@ const ModalA = (props) => {
               alignItems: "center",
               justifyContent: "center",
             }}
-          ></div>
+          >
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
         ) : null}
 
         <div ref={ref} style={{ width: "100%", height: "2px" }}></div>
@@ -83,6 +89,7 @@ const ModalA = (props) => {
           onClick={() => {
             setContacts([]);
             props.onHide();
+            setUrl(initialUrl);
           }}
         >
           Close
