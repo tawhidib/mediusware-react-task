@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import ModalA from "./ModalA";
+import ModalB from "./ModalB";
 
 const Problem2 = () => {
-  const [modalShow, setModalShow] = React.useState(false);
+  const [showModalA, setShowModalA] = useState(false);
+  const [showModalB, setShowModalB] = useState(false);
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">
@@ -12,16 +14,21 @@ const Problem2 = () => {
           <button
             className="btn btn-lg btn-outline-primary"
             type="button"
-            onClick={() => setModalShow(true)}
+            onClick={() => setShowModalA(true)}
           >
             All Contacts
           </button>
-          <button className="btn btn-lg btn-outline-warning" type="button">
+          <button
+            className="btn btn-lg btn-outline-warning"
+            type="button"
+            onClick={() => setShowModalB(true)}
+          >
             US Contacts
           </button>
         </div>
       </div>
-      <ModalA show={modalShow} onHide={() => setModalShow(false)} />
+      <ModalA show={showModalA} onHide={() => setShowModalA(false)} />
+      <ModalB show={showModalB} onHide={() => setShowModalB(false)} />
     </div>
   );
 };
